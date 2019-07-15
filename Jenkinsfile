@@ -29,7 +29,7 @@ node('docker') {
 	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
 
     //docker.image('localhost:50000/accountownerapp:B${BUILD_NUMBER}').inside('-v /var/run/docker.sock:/var/run/docker.sock') {
-    } // docker build
+    //} //docker build
 
     //docker.image('nordri/clair-scanner').inside('--net ci') {
     // 	stage 'Security Scanner' {
