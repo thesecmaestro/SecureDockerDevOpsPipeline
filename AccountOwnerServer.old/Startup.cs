@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AccountOwnerServer.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using AccountOwnerServer.Extensions;
-using Microsoft.AspNetCore.HttpOverrides;
-using System.IO;
-using NLog.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using System.IO;
 
 namespace AccountOwnerServer
 {
@@ -20,7 +14,7 @@ namespace AccountOwnerServer
     {
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
-            loggerFactory.ConfigureNLog(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
+            NLog.LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -52,7 +46,7 @@ namespace AccountOwnerServer
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseCors("CorsPolicy");
 
             app.UseForwardedHeaders(new ForwardedHeadersOptions
