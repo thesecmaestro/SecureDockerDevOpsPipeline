@@ -25,7 +25,12 @@ node('docker') {
         //sh "docker-compose -f docker-compose.integration.yml up --force-recreate --abort-on-container-exit"
         sh "docker-compose -f docker-compose.integration.yml down -v"
 
-    docker.image('accountownerapp').inside('-v /var/run/docker.sock:/var/run/docker.sock') {
+}
+
+    stage 'Push Image'
+	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
+
+    docker.image('localhost:50000/accountownerapp:B${BUILD_NUMBER}').inside('-v /var/run/docker.sock:/var/run/docker.sock') {
     docker.image('nordri/clair-scanner').inside('--net ci') {
     stage 'Security Scanner' {
 	
@@ -35,13 +40,8 @@ node('docker') {
            '''
 
 	}
-    }
 
-}
 
- 
-    stage 'Push Image'
-	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
     
     stage 'Deploy to K8S'
 	 sh "sed -i 's/BUILD_NUMBER/B${BUILD_NUMBER}/g' mydeploy.yaml"
