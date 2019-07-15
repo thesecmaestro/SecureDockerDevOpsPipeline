@@ -23,11 +23,11 @@ node('docker') {
         //sh 'docker-compose -f docker-compose.integration.yml up'
         //sh "docker-compose -f docker-compose.integration.yml up --force-recreate --abort-on-container-exit"
         sh "docker-compose -f docker-compose.integration.yml down -v"
-
+    
     stage 'Push Image'
 	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
-
-    state 'Deploy to K8S'
+    
+    stage 'Deploy to K8S'
 	 sh "sed -i 's/BUILD_NUMBER/B${BUILD_NUMBER}/g' mydeploy.yaml"
 	// 	sh "kubectl apply -f mydeploy.yaml"
         // 	sh "kubectl apply -f myservice.yaml"
