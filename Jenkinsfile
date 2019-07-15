@@ -25,8 +25,6 @@ node('docker') {
         //sh "docker-compose -f docker-compose.integration.yml up --force-recreate --abort-on-container-exit"
         sh "docker-compose -f docker-compose.integration.yml down -v"
 
-}
-
     stage 'Push Image'
 	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
 
