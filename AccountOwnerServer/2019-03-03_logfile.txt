@@ -1,0 +1,1 @@
+2019-03-03 06:36:41.1966 INFO Returned all accounts from database.
