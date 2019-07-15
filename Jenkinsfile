@@ -36,9 +36,9 @@ node('docker') {
              IP=$(ip r | tail -n1 | awk '{ print $9 }')
              /clair-scanner --ip ${IP} --clair=http://clair:6060 --threshold="Critical" DOCKER_IMAGE
            '''
-
 	}
-
+   } }
+	
 
     
     stage 'Deploy to K8S'
