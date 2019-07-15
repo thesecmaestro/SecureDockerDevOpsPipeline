@@ -4,6 +4,7 @@ node('docker') {
         checkout scm
     stage 'Build & UnitTest'
     sh "docker build -t accountownerapp:B${BUILD_NUMBER} -f Dockerfile ."
+    sh "docker build -t localhost:5000/accountownerapp:B${BUILD_NUMBER} -f Dockerfile .
     sh "docker build -t accountownerapp:test-B${BUILD_NUMBER} -f Dockerfile.Integration ."
     
     stage 'Pusblish UT Reports'
