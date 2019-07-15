@@ -21,9 +21,8 @@ RUN dotnet restore
 
 COPY . .
 
-#RUN dotnet test ./Tests/Tests.csproj
-RUN dotnet test --verbosity=normal --results-directory /TestResults/ --logger "trx;LogFileName=test_results.xml" ./Tests/Tests.csproj
-
+RUN dotnet test ./Tests/Tests.csproj
+#RUN dotnet test --verbosity=normal --results-directory /TestResults/ --logger "trx;LogFileName=test_results.xml" ./Tests/Tests.csproj
 
 RUN dotnet publish -c Release ./AccountOwnerServer/AccountOwnerServer.csproj -o /publish/
 
