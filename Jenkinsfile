@@ -28,7 +28,6 @@ node('docker') {
         //sh "docker-compose -f docker-compose.integration.yml up --force-recreate --abort-on-container-exit"
         sh "docker-compose -f docker-compose.integration.yml down -v"
 
-    docker.image('docker').inside('-v /var/run/docker.sock:/var/run/docker.sock') {
     docker.image('nordri/clair-scanner').inside('--net ci') {
     stage 'Security Scanner' {
 	
@@ -52,3 +51,5 @@ node('docker') {
         // 	sh "kubectl apply -f myservice.yaml"
 
 }
+
+
