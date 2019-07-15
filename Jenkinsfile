@@ -4,7 +4,7 @@ node('docker') {
         checkout scm
     stage 'Build & UnitTest'
     sh "docker build -t accountownerapp:B${BUILD_NUMBER} -f Dockerfile ."
-    sh "docker build -t localhost:5000/accountownerapp:B${BUILD_NUMBER} -f Dockerfile ."
+    sh "docker build -t localhost:50000/accountownerapp:B${BUILD_NUMBER} -f Dockerfile ."
     sh "docker build -t accountownerapp:test-B${BUILD_NUMBER} -f Dockerfile.Integration ."
     
     stage 'Pusblish UT Reports'
@@ -25,7 +25,7 @@ node('docker') {
         sh "docker-compose -f docker-compose.integration.yml down -v"
 
     stage 'Push Image'
-	sh "docker push localhost:5000/accountownerapp:B${BUILD_NUMBER}"
+	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
 
     state 'Deploy to K8S'
 	// //     sh "sed -i 's/BUILD_NUMBER/B${BUILD_NUMBER}/g' mydeploy.yaml"
