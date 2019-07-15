@@ -1,4 +1,8 @@
 node('docker') {
+ 
+
+    docker.image('docker').inside('-v /var/run/docker.sock:/var/run/docker.sock') {
+
 
     stage 'Checkout'
         checkout scm
@@ -23,7 +27,21 @@ node('docker') {
         //sh 'docker-compose -f docker-compose.integration.yml up'
         //sh "docker-compose -f docker-compose.integration.yml up --force-recreate --abort-on-container-exit"
         sh "docker-compose -f docker-compose.integration.yml down -v"
-    
+
+    docker.image('nordri/clair-scanner').inside('--net ci') {
+    stage 'Security Scanner' {
+	
+	  sh '''
+             IP=$(ip r | tail -n1 | awk '{ print $9 }')
+             /clair-scanner --ip ${IP} --clair=http://clair:6060 --threshold="Critical" DOCKER_IMAGE
+           '''
+
+	}
+    }
+
+}
+
+ 
     stage 'Push Image'
 	sh "docker push localhost:50000/accountownerapp:B${BUILD_NUMBER}"
     
